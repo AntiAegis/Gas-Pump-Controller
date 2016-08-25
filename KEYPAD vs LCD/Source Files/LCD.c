@@ -16,18 +16,8 @@
 
 
 /**************************************************************************************************
- *	EXTERNs
+ *	GLOBALs
  *************************************************************************************************/
-extern unsigned char varCount;
-
-extern unsigned int regFirmStatus;
-extern unsigned int regFirmOvf;
-extern unsigned int regFirmEnalbe;
-extern unsigned int regFirmPeriod;
-extern unsigned int regFirmDuty;
-
-extern unsigned char varFirmNum;
-extern unsigned char varFirmMode;
 
 
 /**************************************************************************************************
@@ -52,18 +42,18 @@ void lcdNotifyOverFlowDigit (unsigned int varPeDu)
 	if(varPeDu == FIRM_STT_PERIOD)
 	{
 		LCD_PrintString("Period=");
-		LCD_Display((unsigned char)mathBcdThou(regFirmPeriod) + 48);
-		LCD_Display((unsigned char)mathBcdHund(regFirmPeriod) + 48);
-		LCD_Display((unsigned char)mathBcdDeci(regFirmPeriod) + 48);
-		LCD_Display((unsigned char)mathBcdUnit(regFirmPeriod) + 48);
+		LCD_Display((unsigned char)mathBcdThou(regFirmTimeOn) + 48);
+		LCD_Display((unsigned char)mathBcdHund(regFirmTimeOn) + 48);
+		LCD_Display((unsigned char)mathBcdDeci(regFirmTimeOn) + 48);
+		LCD_Display((unsigned char)mathBcdUnit(regFirmTimeOn) + 48);
 	}
 	if(varPeDu == FIRM_STT_DUTY)
 	{
 		LCD_PrintString("Duty=");
-		LCD_Display((unsigned char)mathBcdThou(regFirmDuty) + 48);
-		LCD_Display((unsigned char)mathBcdHund(regFirmDuty) + 48);
-		LCD_Display((unsigned char)mathBcdDeci(regFirmDuty) + 48);
-		LCD_Display((unsigned char)mathBcdUnit(regFirmDuty) + 48);
+		LCD_Display((unsigned char)mathBcdThou(regFirmTimeOff) + 48);
+		LCD_Display((unsigned char)mathBcdHund(regFirmTimeOff) + 48);
+		LCD_Display((unsigned char)mathBcdDeci(regFirmTimeOff) + 48);
+		LCD_Display((unsigned char)mathBcdUnit(regFirmTimeOff) + 48);
 	}
 }
 //-------------------------------------------------------------------------------------------------
@@ -105,6 +95,29 @@ void lcdNotifyNullValue (unsigned int varPeDu)
  * 	Input	:
  * 	Output	:
  */
+void lcdNotifyViolateTime (void)
+{
+	LCD_Clear();
+	LCD_Home();
+	LCD_PrintString("Period < Duty ?!");
+	__delay_cycles(DL_1S);
+	LCD_Clear();
+	LCD_Home();
+	LCD_PrintString("Mode "); LCD_Display(varFirmMode); LCD_Display(':');
+	LCD_Goto(2, 2);
+	LCD_PrintString("Duty=");
+	LCD_Display((unsigned char)mathBcdThou(regFirmTimeOff) + 48);
+	LCD_Display((unsigned char)mathBcdHund(regFirmTimeOff) + 48);
+	LCD_Display((unsigned char)mathBcdDeci(regFirmTimeOff) + 48);
+	LCD_Display((unsigned char)mathBcdUnit(regFirmTimeOff) + 48);
+}
+//-------------------------------------------------------------------------------------------------
+/*
+ * 	Function:
+ *	Purpose	:
+ * 	Input	:
+ * 	Output	:
+ */
 void lcdNotifyExit (void)
 {
 	LCD_Clear();
@@ -137,9 +150,24 @@ void lcdNotifyConfirm (void)
 {
 	LCD_Clear();
 	LCD_Home();
-	LCD_PrintString("    Confirm    ");
+
+//	LCD_PrintString("    Confirm    ");
+//	LCD_Goto(2,1);
+//	LCD_PrintString("  completely!  ");
+
+	LCD_PrintString("  Period=");
+	LCD_Display((unsigned char)mathBcdThou(regFirmTimeOn) + 48);
+	LCD_Display((unsigned char)mathBcdHund(regFirmTimeOn) + 48);
+	LCD_Display((unsigned char)mathBcdDeci(regFirmTimeOn) + 48);
+	LCD_Display((unsigned char)mathBcdUnit(regFirmTimeOn) + 48);
+
 	LCD_Goto(2,1);
-	LCD_PrintString("  completely!  ");
+
+	LCD_PrintString("   Duty=");
+	LCD_Display((unsigned char)mathBcdThou(regFirmTimeOff) + 48);
+	LCD_Display((unsigned char)mathBcdHund(regFirmTimeOff) + 48);
+	LCD_Display((unsigned char)mathBcdDeci(regFirmTimeOff) + 48);
+	LCD_Display((unsigned char)mathBcdUnit(regFirmTimeOff) + 48);
 }
 //-------------------------------------------------------------------------------------------------
 /*

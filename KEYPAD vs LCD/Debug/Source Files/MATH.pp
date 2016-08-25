@@ -14,6 +14,7 @@ Source\ Files/MATH.obj: C:/ti/ccsv6/ccs_base/msp430/include/msp430.h
 Source\ Files/MATH.obj: C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 1_0_1/GPIO_1_0_1.h
 Source\ Files/MATH.obj: C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 1_0_1/LCD_162_1_0_1.h
 Source\ Files/MATH.obj: C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 2_0_1/USCI_I2C_2_0_1.h
+Source\ Files/MATH.obj: C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 1_0_1/FLASH_1_0_1.h
 
 ../Source\ Files/MATH.c: 
 ../Source\ Files/main.h: 
@@ -29,3 +30,4 @@ C:/ti/ccsv6/ccs_base/msp430/include/msp430.h:
 C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 1_0_1/GPIO_1_0_1.h: 
 C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 1_0_1/LCD_162_1_0_1.h: 
 C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 2_0_1/USCI_I2C_2_0_1.h: 
+C:/Users/Chinh\ Thuy/Google\ Drive/WORKSPACE/CCS\ WORKSPACE/LIBRARY/VERSION\ 1_0_1/FLASH_1_0_1.h: 

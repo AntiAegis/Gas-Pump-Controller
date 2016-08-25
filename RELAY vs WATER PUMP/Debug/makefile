@@ -10,6 +10,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./main (1).obj" \
 "./main.obj" \
 "./Source Files/COMMUNICATION.obj" \
 "./Source Files/CONTROL.obj" \
@@ -161,8 +162,8 @@ RELAY\ vs\ WATER\ PUMP.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "main.pp" "Source Files\COMMUNICATION.pp" "Source Files\CONTROL.pp" "Source Files\FLASH_1_0_1.pp" "Library Files\CLOCK_1_2_3.pp" "Library Files\GPIO_1_0_1.pp" "Library Files\TIMERA_1_2_3.pp" "Library Files\UCSI_I2C_2_0_1.pp" "Library Files\USCI_UART_1_2_3.pp" 
-	-$(RM) "main.obj" "Source Files\COMMUNICATION.obj" "Source Files\CONTROL.obj" "Source Files\FLASH_1_0_1.obj" "Library Files\CLOCK_1_2_3.obj" "Library Files\GPIO_1_0_1.obj" "Library Files\TIMERA_1_2_3.obj" "Library Files\UCSI_I2C_2_0_1.obj" "Library Files\USCI_UART_1_2_3.obj" 
+	-$(RM) "main (1).pp" "main.pp" "Source Files\COMMUNICATION.pp" "Source Files\CONTROL.pp" "Source Files\FLASH_1_0_1.pp" "Library Files\CLOCK_1_2_3.pp" "Library Files\GPIO_1_0_1.pp" "Library Files\TIMERA_1_2_3.pp" "Library Files\UCSI_I2C_2_0_1.pp" "Library Files\USCI_UART_1_2_3.pp" 
+	-$(RM) "main (1).obj" "main.obj" "Source Files\COMMUNICATION.obj" "Source Files\CONTROL.obj" "Source Files\FLASH_1_0_1.obj" "Library Files\CLOCK_1_2_3.obj" "Library Files\GPIO_1_0_1.obj" "Library Files\TIMERA_1_2_3.obj" "Library Files\UCSI_I2C_2_0_1.obj" "Library Files\USCI_UART_1_2_3.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
