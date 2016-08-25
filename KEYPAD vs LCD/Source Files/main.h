@@ -9,6 +9,8 @@
  */
 #ifndef MAIN_H_
 #define MAIN_H_
+
+#define USE_LCD
 /**************************************************************************************************
  *	IMPORT
  *************************************************************************************************/
@@ -18,6 +20,7 @@
 #include "VERSION 1_0_1/GPIO_1_0_1.h"		// Const parameters
 #include "VERSION 1_0_1/LCD_162_1_0_1.h"	// Normal
 #include "VERSION 2_0_1/USCI_I2C_2_0_1.h"	// Const parameters
+#include "VERSION 1_0_1/FLASH_1_0_1.h"		// Const parameters
 
 
 /**************************************************************************************************
@@ -63,14 +66,16 @@
 #define			FIRM_STT_DUTY			BIT6	// Get duty
 #define			FIRM_STT_DIGIT1			BIT7	// 0 (first digit), 1 (second digit)
 #define			FIRM_STT_DIGIT2			BIT8	// 0 (third digit), 1 (fourth digit)
-#define			FIRM_STT_RESERVED_1		BIT9	// Reserved
-#define			FIRM_STT_RESERVED_2		BIT10	// Reserved
-#define			FIRM_STT_RESERVED_3		BIT11	// Reserved
-#define			FIRM_STT_RESERVED_4		BIT12	// Reserved
-#define			FIRM_STT_RESERVED_5		BIT13	// Reserved
-#define			FIRM_STT_RESERVED_6		BIT14	// Reserved
-#define			FIRM_STT_RESERVED_7		BIT15	// Reserved
+#define			FIRM_STT_MODE_SEL_A		BIT9	// Mode A sellect
+#define			FIRM_STT_MODE_SEL_B		BITA	// Mode B sellect
+#define			FIRM_STT_MODE_SEL_C		BITB	// Mode C sellect
+#define			FIRM_STT_OLD_VALUE		BITC	// Reserved
+#define			FIRM_STT_RESERVED_5		BITD	// Reserved
+#define			FIRM_STT_RESERVED_6		BITE	// Reserved
+#define			FIRM_STT_RESERVED_7		BITF	// Reserved
 #define			FIRM_STT_DIGIT			(FIRM_STT_DIGIT1 + FIRM_STT_DIGIT2)	// For all of digits
+#define			FIRM_STT_MODE_SEL_ALL	(FIRM_STT_MODE_SEL_A + FIRM_STT_MODE_SEL_B + FIRM_STT_MODE_SEL_C)
+																			// For all mode sellect
 
 /* Firmware overflow register (16-bit) */
 #define			FIRM_OVF_DIGIT			BIT0	// Digit overflow
@@ -83,12 +88,12 @@
 #define			FIRM_OVF_RESERVED_6		BIT7	// Reserved
 #define			FIRM_OVF_RESERVED_7		BIT8	// Reserved
 #define			FIRM_OVF_RESERVED_8		BIT9	// Reserved
-#define			FIRM_OVF_RESERVED_9		BIT10	// Reserved
-#define			FIRM_OVF_RESERVED_10	BIT11	// Reserved
-#define			FIRM_OVF_RESERVED_11	BIT12	// Reserved
-#define			FIRM_OVF_RESERVED_12	BIT13	// Reserved
-#define			FIRM_OVF_RESERVED_13	BIT14	// Reserved
-#define			FIRM_OVF_RESERVED_14	BIT15	// Reserved
+#define			FIRM_OVF_RESERVED_9		BITA	// Reserved
+#define			FIRM_OVF_RESERVED_10	BITB	// Reserved
+#define			FIRM_OVF_RESERVED_11	BITC	// Reserved
+#define			FIRM_OVF_RESERVED_12	BITD	// Reserved
+#define			FIRM_OVF_RESERVED_13	BITE	// Reserved
+#define			FIRM_OVF_RESERVED_14	BITF	// Reserved
 
 /* Firmware enable register (16-bit) */
 #define			FIRM_EN_MODE_A			BIT0	// Mode Sellect A
@@ -148,76 +153,85 @@
 #define			MATH_BCD_HUND			0x0F00	// 4 BCD hundred bits
 #define			MATH_BCD_THOU			0xF000	// 4 BCD thousand bits
 
+/* Flash */
+#define			FLASH_SEGMENT			(flash_Segment)segC
+#define			FLASH_NUM_BYTE			I2C_NUM_BYTE
+#define			FLASH_ADDR_INIT_A		0x00
+#define			FLASH_ADDR_INIT_B		(FLASH_ADDR_INIT_A + I2C_NUM_BYTE)
+#define			FLASH_ADDR_INIT_C		(FLASH_ADDR_INIT_B + I2C_NUM_BYTE)
+
 
 /**************************************************************************************************
  *	GLOBALs
  *************************************************************************************************/
-#ifndef USE_NOTIFIER_MCU
+/* Keypad */
+extern volatile unsigned char 	varCount;			// The ordinal of column of keypad
+extern volatile unsigned char 	arrOut[];			// Sweeping keypad
 
-	/* Keypad */
-	unsigned char varCount;
-	unsigned char arrOut[4] = {0xEF, 0xDF, 0xBF, 0x7F};
+/* Communication */
+extern volatile unsigned char 	arrCommunication[];	// Divide data into bytes for transmitting
 
-	/* Communication */
-	unsigned char arrCommunication[I2C_NUM_BYTE];
+/* LED 7-segment */
+extern volatile unsigned char 	arrLed7segNum[];	// LED 7-segment code
 
-	/* LED 7-segment */
-	unsigned char arrLed7segNum[LED_7SEG_FONT_LENGTH] =
-	{LED_7SEG_FONT_0, LED_7SEG_FONT_1, LED_7SEG_FONT_2, LED_7SEG_FONT_3, LED_7SEG_FONT_4,
-	 LED_7SEG_FONT_5, LED_7SEG_FONT_6, LED_7SEG_FONT_7, LED_7SEG_FONT_8, LED_7SEG_FONT_9,
-	 LED_7SEG_FONT_ERROR, LED_7SEG_FONT_NULL};
-
-	/* Firmware */
-	unsigned int regFirmStatus;		// Firmware status register
-	unsigned int regFirmOvf;		// Firmware overflow register
-	unsigned int regFirmPeriod;		// Firmware period data register
-	unsigned int regFirmDuty;		// Firmware duty data register
-	unsigned int regFirmEnalbe;		// Firmware enable register
-
-	unsigned char varFirmNum;		// Stores gotten number from keypad
-	unsigned char varFirmMode;		// Stores gotten mode from keypad
-
-#endif /* USE_NOTIFY_MCU */
+/* Firmware */
+extern volatile unsigned int 	regFirmStatus;		// Firmware status register
+extern volatile unsigned int 	regFirmOvf;			// Firmware overflow register
+extern volatile unsigned int 	regFirmTimeOn;		// Firmware period data register
+extern volatile unsigned int 	regFirmTimeOff;		// Firmware duty data register
+extern volatile unsigned int 	regFirmTimeOnA;		// Firmware period data of mode A register
+extern volatile unsigned int 	regFirmTimeOffA;	// Firmware duty data of mode A register
+extern volatile unsigned int 	regFirmTimeOnB;		// Firmware period data of mode B register
+extern volatile unsigned int 	regFirmTimeOffB;	// Firmware duty data of mode B register
+extern volatile unsigned int 	regFirmTimeOnC;		// Firmware period data of mode C register
+extern volatile unsigned int 	regFirmTimeOffC;	// Firmware duty data of mode C register
+extern volatile unsigned int 	regFirmEnalbe;		// Firmware enable register
+extern volatile unsigned char 	varFirmNum;			// Stores gotten number from keypad
+extern volatile unsigned char 	varFirmMode;		// Stores gotten mode from keypad
 
 
 /**************************************************************************************************
  *	FUNCTION'S PROTOTYPEs
  *************************************************************************************************/
 /* Keypad */
-void keypadButtonIdentify	(unsigned char regPortIfg);
-void keypadSetRegSttMode	(unsigned char varMode);
-void keypadSetRegSttControl (unsigned char varControl);
-void keypadSetRegSttNum 	(unsigned char varNum);
+void 			keypadButtonIdentify		(unsigned char regPortIfg);
+void 			keypadSetRegSttMode			(unsigned char varMode);
+void 			keypadSetRegSttControl 		(unsigned char varControl);
+void 			keypadSetRegSttNum 			(unsigned char varNum);
 
 /* LCD */
-void lcdNotifyOverFlowDigit (unsigned int varPeDu);
-void lcdNotifyNullValue		(unsigned int varPeDu);
-void lcdNotifyExit			(void);
-void lcdNotifyMode			(unsigned char varMode);
-void lcdNotifyConfirm		(void);
+void 			lcdNotifyOverFlowDigit 		(unsigned int varPeDu);
+void 			lcdNotifyNullValue			(unsigned int varPeDu);
+void			lcdNotifyViolateTime		(void);
+void 			lcdNotifyExit				(void);
+void 			lcdNotifyMode				(unsigned char varMode);
+void 			lcdNotifyConfirm			(void);
 
 /* Led 7-segment */
-void led7segDisplayNumber	(unsigned int varPeriod, unsigned int varDuty);
-void led7segNotifyConfirm	(void);
-void led7segNotifyError		(void);
-void led7segNotifyExit		(void);
+void 			led7segDisplayNumber		(unsigned int varPeriod, unsigned int varDuty);
+void 			led7segNotifyConfirm		(void);
+void 			led7segNotifyError			(void);
+void 			led7segNotifyExit			(void);
 
 /* 74HC595 */
-void ic74hc595GetData	(unsigned char varData);
-void ic74hc595Latch		(void);
+void 			ic74hc595GetData			(unsigned char varData);
+void 			ic74hc595Latch				(void);
 
 /* Communication */
-void communicationEncode	(void);
-void communicationTransmit  (void);
+void 			communicationEncode			(void);
+void			communicationDecode			(unsigned int varModeSel);
+void 			communicationTransmit  		(void);
 
 /* Math */
-unsigned int mathBcdUnit 		(unsigned int varNumber);
-unsigned int mathBcdDeci 		(unsigned int varNumber);
-unsigned int mathBcdHund 		(unsigned int varNumber);
-unsigned int mathBcdThou 		(unsigned int varNumber);
-void		 mathGetBCDNumber	(unsigned int varPeDu, unsigned char varDigit, unsigned char varPosition);
+unsigned int 	mathBcdUnit 				(unsigned int varNumber);
+unsigned int	mathBcdDeci 				(unsigned int varNumber);
+unsigned int 	mathBcdHund 				(unsigned int varNumber);
+unsigned int 	mathBcdThou 				(unsigned int varNumber);
+void			mathGetBCDNumber			(unsigned int varPeDu, unsigned char varDigit,
+																	unsigned char varPosition);
 
 /* Firmware */
+void			firmwareSetup				(void);
 void 			firmwareConfirm 			(void);
 void 			firmwareClearTempValue 		(unsigned int varPeDu);
 void 			firmwareNullValue 			(unsigned int varPeDu);

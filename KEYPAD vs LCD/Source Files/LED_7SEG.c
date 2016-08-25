@@ -16,20 +16,12 @@
 
 
 /**************************************************************************************************
- *	EXTERNs
+ *	GLOBALs
  *************************************************************************************************/
-extern unsigned char varCount;
-
-extern unsigned int regFirmStatus;
-extern unsigned int regFirmOvf;
-extern unsigned int regFirmEnalbe;
-extern unsigned int regFirmPeriod;
-extern unsigned int regFirmDuty;
-
-extern unsigned char varFirmNum;
-extern unsigned char varFirmMode;
-
-extern unsigned char arrLed7segNum[];
+extern volatile unsigned char arrLed7segNum[LED_7SEG_FONT_LENGTH] =
+	{LED_7SEG_FONT_0, LED_7SEG_FONT_1, LED_7SEG_FONT_2, LED_7SEG_FONT_3, LED_7SEG_FONT_4,
+	 LED_7SEG_FONT_5, LED_7SEG_FONT_6, LED_7SEG_FONT_7, LED_7SEG_FONT_8, LED_7SEG_FONT_9,
+	 LED_7SEG_FONT_ERROR, LED_7SEG_FONT_NULL};
 
 
 /**************************************************************************************************
@@ -76,7 +68,7 @@ void led7segNotifyConfirm (void)
 	ic74hc595Latch();
 	__delay_cycles(DL_500MS);
 
-	led7segDisplayNumber(regFirmPeriod, regFirmDuty);
+	led7segDisplayNumber(regFirmTimeOn, regFirmTimeOff);
 	__delay_cycles(DL_500MS);
 
 	ic74hc595GetData(LED_7SEG_FONT_NULL);
@@ -88,7 +80,7 @@ void led7segNotifyConfirm (void)
 	ic74hc595Latch();
 	__delay_cycles(DL_500MS);
 
-	led7segDisplayNumber(regFirmPeriod, regFirmDuty);
+	led7segDisplayNumber(regFirmTimeOn, regFirmTimeOff);
 }
 //-------------------------------------------------------------------------------------------------
 /*
@@ -108,7 +100,7 @@ void led7segNotifyError (void)
 	ic74hc595Latch();
 	__delay_cycles(DL_1S);
 
-	led7segDisplayNumber(regFirmPeriod, regFirmDuty);
+	led7segDisplayNumber(regFirmTimeOn, regFirmTimeOff);
 }
 //-------------------------------------------------------------------------------------------------
 /*

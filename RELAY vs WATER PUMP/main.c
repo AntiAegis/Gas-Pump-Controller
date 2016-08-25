@@ -93,11 +93,11 @@ __interrupt void TIMER0_A1_ISR (void)
 		{
 			controlRelayOn(IO_PORT1_PIN, IO_PORT2_PIN);
 		}
-		else if(varCountTime == (2*regFirmPeriod))
+		else if(varCountTime == (2*regFirmDuty))
 		{
 			controlRelayOff(IO_PORT1_PIN, IO_PORT2_PIN);
 		}
-		else if(varCountTime == (2*regFirmDuty))
+		else if(varCountTime == (2*regFirmPeriod))
 		{
 			controlRelayOn(IO_PORT1_PIN, IO_PORT2_PIN);
 			varCountTime = 0;

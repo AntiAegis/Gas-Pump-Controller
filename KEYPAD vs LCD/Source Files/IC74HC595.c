@@ -16,18 +16,8 @@
 
 
 /**************************************************************************************************
- *	EXTERNs
+ *	GLOBALs
  *************************************************************************************************/
-extern unsigned char varCount;
-
-extern unsigned int regFirmStatus;
-extern unsigned int regFirmOvf;
-extern unsigned int regFirmEnalbe;
-extern unsigned int regFirmPeriod;
-extern unsigned int regFirmDuty;
-
-extern unsigned char varFirmNum;
-extern unsigned char varFirmMode;
 
 
 /**************************************************************************************************
@@ -42,20 +32,20 @@ extern unsigned char varFirmMode;
 void ic74hc595GetData (unsigned char varData)
 {
 	unsigned char varCount;
-	gpioLow(PIN_74HC595_SHCP);
+	gpioLow(PORT1, PIN_74HC595_SHCP);
 	for(varCount = 0; varCount < 8; varCount++)
 	{
 		if(varData & BIT7)
 		{
-			gpioHigh(PIN_74HC595_DS);
+			gpioHigh(PORT1, PIN_74HC595_DS);
 		}
 		else
 		{
-			gpioLow(PIN_74HC595_DS);
+			gpioLow(PORT1, PIN_74HC595_DS);
 		}
 		varData = (varData << 1);
-		gpioHigh(PIN_74HC595_SHCP);
-		gpioLow(PIN_74HC595_SHCP);
+		gpioHigh(PORT1, PIN_74HC595_SHCP);
+		gpioLow(PORT1, PIN_74HC595_SHCP);
 	}
 }
 //-------------------------------------------------------------------------------------------------
@@ -67,10 +57,10 @@ void ic74hc595GetData (unsigned char varData)
  */
 void ic74hc595Latch (void)
 {
-	gpioLow(PIN_74HC595_STCP);
+	gpioLow(PORT1, PIN_74HC595_STCP);
 	__delay_cycles(5);
-	gpioHigh(PIN_74HC595_STCP);
-	gpioLow(PIN_74HC595_STCP);
+	gpioHigh(PORT1, PIN_74HC595_STCP);
+	gpioLow(PORT1, PIN_74HC595_STCP);
 }
 //-------------------------------------------------------------------------------------------------
 /*

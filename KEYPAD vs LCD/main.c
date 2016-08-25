@@ -7,8 +7,6 @@
  *	Description		:	Keypad 4x4
  *	Target object	:	MSP430G2553
  */
-//#define	USE_LCD
-#define	USE_LED_7SEG
 /**************************************************************************************************
  *	IMPORT
  *************************************************************************************************/
@@ -39,7 +37,7 @@ void main (void)
 	i2cSetup(I2C_MASTER, I2C_ADDR_SLAVE, 10, INT_I2C_RX_OFF, INT_I2C_TX_OFF, INT_I2C_STT_OFF);
 
 	//-Firmware-//
-	firmwareEnalbe(FIRM_EN_MODE_A + FIRM_EN_MODE_D);
+	firmwareSetup();
 //-------------------------------------------------------------------------------------------------
 	/* LOOP */
 	while(1)
@@ -68,9 +66,10 @@ __interrupt void port2Isr (void)
 	{
 #ifdef USE_LCD
 		lcdNotifyMode(varFirmMode);
-#elif USE_LED_7SEG
+#endif	/* USE_LCD */
+#ifdef USE_LED_7SEG
 		__delay_cycles(1);														// Reserved
-#endif
+#endif	/* USE_LED_7SEG */
 		if(regFirmStatus & FIRM_STT_PERIOD)										// Input for Period
 		{
 			firmwareInputValue(FIRM_STT_PERIOD);

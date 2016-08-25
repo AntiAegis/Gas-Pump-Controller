@@ -16,20 +16,9 @@
 
 
 /**************************************************************************************************
- *	EXTERNs
+ *	GLOBALs
  *************************************************************************************************/
-extern unsigned char varCount;
-
-extern unsigned int regFirmStatus;
-extern unsigned int regFirmOvf;
-extern unsigned int regFirmEnalbe;
-extern unsigned int regFirmPeriod;
-extern unsigned int regFirmDuty;
-
-extern unsigned char varFirmNum;
-extern unsigned char varFirmMode;
-
-extern unsigned char arrCommunication[I2C_NUM_BYTE];
+extern volatile unsigned char arrCommunication[I2C_NUM_BYTE] = {0, 0, 0, 0};
 
 
 /**************************************************************************************************
@@ -43,10 +32,35 @@ extern unsigned char arrCommunication[I2C_NUM_BYTE];
  */
 void communicationEncode (void)
 {
-	arrCommunication[0] = (regFirmPeriod & (MATH_BCD_UNIT + MATH_BCD_DECI));							// Low
-	arrCommunication[1] = (unsigned char)((regFirmPeriod & (MATH_BCD_HUND + MATH_BCD_THOU)) >> 8);		// High
-	arrCommunication[2] = (regFirmDuty & (MATH_BCD_UNIT + MATH_BCD_DECI));								// Low
-	arrCommunication[3] = (unsigned char)((regFirmDuty & (MATH_BCD_HUND + MATH_BCD_THOU)) >> 8);		// High
+	arrCommunication[0] = (regFirmTimeOn & (MATH_BCD_UNIT + MATH_BCD_DECI));							// Low
+	arrCommunication[1] = (unsigned char)((regFirmTimeOn & (MATH_BCD_HUND + MATH_BCD_THOU)) >> 8);		// High
+	arrCommunication[2] = (regFirmTimeOff & (MATH_BCD_UNIT + MATH_BCD_DECI));							// Low
+	arrCommunication[3] = (unsigned char)((regFirmTimeOff & (MATH_BCD_HUND + MATH_BCD_THOU)) >> 8);		// High
+}
+//-------------------------------------------------------------------------------------------------
+/*
+ * 	Function:
+ *	Purpose	:
+ * 	Input	:
+ * 	Output	:
+ */
+void communicationDecode (unsigned int varModeSel)
+{
+	switch (varModeSel)
+	{
+		case FIRM_STT_MODE_SEL_A:
+			regFirmTimeOnA  = (arrCommunication[0] | (arrCommunication[1] << 8));
+			regFirmTimeOffA = (arrCommunication[2] | (arrCommunication[3] << 8));
+			break;
+		case FIRM_STT_MODE_SEL_B:
+			regFirmTimeOnB  = (arrCommunication[0] | (arrCommunication[1] << 8));
+			regFirmTimeOffB = (arrCommunication[2] | (arrCommunication[3] << 8));
+			break;
+		case FIRM_STT_MODE_SEL_C:
+			regFirmTimeOnC  = (arrCommunication[0] | (arrCommunication[1] << 8));
+			regFirmTimeOffC = (arrCommunication[2] | (arrCommunication[3] << 8));
+			break;
+	}
 }
 //-------------------------------------------------------------------------------------------------
 /*

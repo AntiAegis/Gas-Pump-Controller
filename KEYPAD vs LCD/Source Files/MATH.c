@@ -16,20 +16,8 @@
 
 
 /**************************************************************************************************
- *	EXTERNs
+ *	GLOBALs
  *************************************************************************************************/
-extern unsigned char varCount;
-
-extern unsigned int regFirmStatus;
-extern unsigned int regFirmOvf;
-extern unsigned int regFirmEnalbe;
-extern unsigned int regFirmPeriod;
-extern unsigned int regFirmDuty;
-
-extern unsigned char varFirmNum;
-extern unsigned char varFirmMode;
-
-extern unsigned char arrCommunication[I2C_NUM_BYTE];
 
 
 /**************************************************************************************************
@@ -91,24 +79,24 @@ void mathGetBCDNumber (unsigned int varPeDu, unsigned char varDigit, unsigned ch
 	{
 		if(varPosition == MATH_ORGI_UNIT)
 		{
-			regFirmPeriod = (varDigit & 0x0F);
+			regFirmTimeOn = (varDigit & 0x0F);
 		}
 		else if ((varPosition == MATH_ORGI_DECIMAL) || (varPosition == MATH_ORGI_HUNDRED) ||
 				 (varPosition == MATH_ORGI_THOUSAND))
 		{
-			regFirmPeriod = ((regFirmPeriod << 4) | (varDigit & 0x0F));
+			regFirmTimeOn = ((regFirmTimeOn << 4) | (varDigit & 0x0F));
 		}
 	}
 	if(varPeDu == FIRM_STT_DUTY)
 	{
 		if(varPosition == MATH_ORGI_UNIT)
 		{
-			regFirmDuty = (varDigit & 0x0F);
+			regFirmTimeOff = (varDigit & 0x0F);
 		}
 		else if ((varPosition == MATH_ORGI_DECIMAL) || (varPosition == MATH_ORGI_HUNDRED) ||
 				 (varPosition == MATH_ORGI_THOUSAND))
 		{
-			regFirmDuty = ((regFirmDuty << 4) | (varDigit & 0x0F));
+			regFirmTimeOff = ((regFirmTimeOff << 4) | (varDigit & 0x0F));
 		}
 	}
 }

@@ -19,6 +19,7 @@ ORDERED_OBJS += \
 "./Source Files/LED_7SEG.obj" \
 "./Source Files/MATH.obj" \
 "./Library Files/CLOCK_1_2_3.obj" \
+"./Library Files/FLASH_1_0_1.obj" \
 "./Library Files/GPIO_1_0_1.obj" \
 "./Library Files/LCD_162_1_0_1.obj" \
 "./Library Files/UCSI_I2C_2_0_1.obj" \
@@ -164,8 +165,8 @@ KEYPAD\ vs\ LCD.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "main.pp" "Source Files\COMMUNICATION.pp" "Source Files\FIRMWARE.pp" "Source Files\IC74HC595.pp" "Source Files\KEYPAD.pp" "Source Files\LCD.pp" "Source Files\LED_7SEG.pp" "Source Files\MATH.pp" "Library Files\CLOCK_1_2_3.pp" "Library Files\GPIO_1_0_1.pp" "Library Files\LCD_162_1_0_1.pp" "Library Files\UCSI_I2C_2_0_1.pp" 
-	-$(RM) "main.obj" "Source Files\COMMUNICATION.obj" "Source Files\FIRMWARE.obj" "Source Files\IC74HC595.obj" "Source Files\KEYPAD.obj" "Source Files\LCD.obj" "Source Files\LED_7SEG.obj" "Source Files\MATH.obj" "Library Files\CLOCK_1_2_3.obj" "Library Files\GPIO_1_0_1.obj" "Library Files\LCD_162_1_0_1.obj" "Library Files\UCSI_I2C_2_0_1.obj" 
+	-$(RM) "main.pp" "Source Files\COMMUNICATION.pp" "Source Files\FIRMWARE.pp" "Source Files\IC74HC595.pp" "Source Files\KEYPAD.pp" "Source Files\LCD.pp" "Source Files\LED_7SEG.pp" "Source Files\MATH.pp" "Library Files\CLOCK_1_2_3.pp" "Library Files\FLASH_1_0_1.pp" "Library Files\GPIO_1_0_1.pp" "Library Files\LCD_162_1_0_1.pp" "Library Files\UCSI_I2C_2_0_1.pp" 
+	-$(RM) "main.obj" "Source Files\COMMUNICATION.obj" "Source Files\FIRMWARE.obj" "Source Files\IC74HC595.obj" "Source Files\KEYPAD.obj" "Source Files\LCD.obj" "Source Files\LED_7SEG.obj" "Source Files\MATH.obj" "Library Files\CLOCK_1_2_3.obj" "Library Files\FLASH_1_0_1.obj" "Library Files\GPIO_1_0_1.obj" "Library Files\LCD_162_1_0_1.obj" "Library Files\UCSI_I2C_2_0_1.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

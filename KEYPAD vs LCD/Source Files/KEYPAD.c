@@ -16,18 +16,10 @@
 
 
 /**************************************************************************************************
- *	EXTERNs
+ *	GLOBALs
  *************************************************************************************************/
-extern unsigned char varCount;
-
-extern unsigned int regFirmStatus;
-extern unsigned int regFirmOvf;
-extern unsigned int regFirmEnalbe;
-extern unsigned int regFirmPeriod;
-extern unsigned int regFirmDuty;
-
-extern unsigned char varFirmNum;
-extern unsigned char varFirmMode;
+extern volatile unsigned char varCount = 0;
+extern volatile unsigned char arrOut[4] = {0xEF, 0xDF, 0xBF, 0x7F};
 
 
 /**************************************************************************************************
@@ -190,14 +182,37 @@ void keypadSetRegSttMode (unsigned char varMode)
 	if((varMode == 'A') || (varMode == 'B') || (varMode == 'C'))	// Sellect
 	{
 		regFirmStatus |=  FIRM_STT_MODE_SEL;
+		switch (varMode)
+		{
+			case 'A':
+				regFirmStatus &= ~FIRM_STT_MODE_SEL_ALL;
+				regFirmStatus |=  FIRM_STT_MODE_SEL_A;
+				regFirmTimeOn  =  regFirmTimeOnA;
+				regFirmTimeOff =  regFirmTimeOffA;
+				break;
+			case 'B':
+				regFirmStatus &= ~FIRM_STT_MODE_SEL_ALL;
+				regFirmStatus |=  FIRM_STT_MODE_SEL_B;
+				regFirmTimeOn  =  regFirmTimeOnB;
+				regFirmTimeOff =  regFirmTimeOffB;
+				break;
+			case 'C':
+				regFirmStatus &= ~FIRM_STT_MODE_SEL_ALL;
+				regFirmStatus |=  FIRM_STT_MODE_SEL_C;
+				regFirmTimeOn  =  regFirmTimeOnC;
+				regFirmTimeOff =  regFirmTimeOffC;
+				break;
+		}
 		regFirmStatus |=  FIRM_STT_PERIOD;
+		regFirmStatus |=  FIRM_STT_OLD_VALUE;
 		regFirmStatus &= ~FIRM_STT_EXIT_SEL;
 		varFirmMode    =  varMode;
+		varFirmNum	   =  mathBcdUnit(regFirmTimeOn);
 	}
 	if(varMode == 'D')												// Exit
 	{
-		regFirmStatus = FIRM_STT_EXIT_SEL;
-		varFirmMode   =  varMode;
+		regFirmStatus  = FIRM_STT_EXIT_SEL;
+		varFirmMode    = varMode;
 	}
 }
 //-------------------------------------------------------------------------------------------------

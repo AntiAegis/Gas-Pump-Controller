@@ -31,6 +31,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/LIBRARY/VERSION%201_2_3/CLOCK_1_2_3.c</locationURI>
 		</link>
 		<link>
+			<name>Library Files/FLASH_1_0_1.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/LIBRARY/VERSION%201_0_1/FLASH_1_0_1.c</locationURI>
+		</link>
+		<link>
 			<name>Library Files/GPIO_1_0_1.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/LIBRARY/VERSION%201_0_1/GPIO_1_0_1.c</locationURI>
